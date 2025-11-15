@@ -2,54 +2,58 @@
 
 ## Descriere
 
-Acest proiect implementează un **clasificator multinomial Bayes** pentru detectarea titlurilor **clickbait**. Modelul analizează cuvintele din titluri și calculează probabilitatea ca un titlu să fie clickbait sau non-clickbait, pe baza frecvenței cuvintelor în setul de antrenament.
+Acest proiect implementeaza un **clasificator multinomial Bayes** pentru detectarea titlurilor **clickbait**. Modelul analizeaza cuvintele din titluri si calculeaza probabilitatea ca un titlu sa fie clickbait sau non-clickbait, pe baza frecventei cuvintelor in setul de antrenament.
 
 Proiectul include:
 
-* Preprocesarea textului (lowercase, eliminare stopwords și simboluri speciale)
+* Preprocesarea textului (lowercase, eliminare stopwords si simboluri speciale)
 * Vectorizare text (bag-of-words)
-* Calcul probabilități a priori și condiționate
+* Calcul probabilitati a priori si conditionate
 * Clasificarea titlurilor necunoscute
-* Evaluarea performanței modelului (acuratețe, precizie, sensibilitate, F1 și matrice de confuzie)
-* Exemple de cuvinte care au contribuit cel mai mult la predicție
+* Evaluarea performantei modelului (acuratete, precizie, sensibilitate, F1 si matrice de confuzie)
+* Exemple de cuvinte care au contribuit cel mai mult la predictie
 
 ---
 
-## Teoria folosită
+## Teoria folosita
 
-**Naive Bayes Multinomial** se bazează pe următoarele formule:
+**Naive Bayes Multinomial** se bazeaza pe urmatoarele formule:
 
-1. Probabilitatea a priori pentru clasa (c):
-   [
-   P(c) = \frac{\text{număr documente în clasa } c}{\text{număr total documente}}
-   ]
+1. **Probabilitatea a priori pentru clasa (c):**
 
-2. Probabilitatea condiționată pentru cuvinte (w_i) în clasa (c):
-   [
-   P(w_i|c) = \frac{\text{număr apariții cuvânt } w_i \text{ în clasa } c + \alpha}{\text{total cuvinte în clasa } c + \alpha \cdot V}
-   ]
-   unde (\alpha) este parametru Laplace smoothing și (V) este dimensiunea vocabularului.
+```
+P(c) = numar documente in clasa c / numar total documente
+```
 
-3. Probabilitatea ca un text (d) să aparțină clasei (c):
-   [
-   P(c|d) \propto P(c) \prod_{i} P(w_i|c)^{\text{număr apariții } w_i \text{ în } d}
-   ]
+2. **Probabilitatea conditionata pentru cuvinte (w_i) in clasa (c):**
+
+```
+P(w_i | c) = (numar aparitii cuvant w_i in clasa c + α) / (total cuvinte in clasa c + α * V)
+```
+
+unde α este parametrul de Laplace smoothing si V este dimensiunea vocabularului.
+
+3. **Probabilitatea ca un text (d) sa apartina clasei (c):**
+
+```
+P(c | d) ∝ P(c) * Π P(w_i | c)^(numar aparitii w_i in d)
+```
 
 ---
 
 ## Structura codului
 
-* `nb_clickbait.py`: fișier principal cu implementarea vectorizatorului și a modelului Naive Bayes
-* Funcții principale:
+* `nb_clickbait.py`: fisier principal cu implementarea vectorizatorului si a modelului Naive Bayes
+* Functii principale:
 
-  * `clean_text(text)` – curăță și tokenizează textul
-  * `Vectorizer` – creează bag-of-words și transformă textul în matrice numerică
-  * `NaiveBayes` – antrenează și face predicții
+  * `clean_text(text)` – curata si tokenizeaza textul
+  * `Vectorizer` – creeaza bag-of-words si transforma textul in matrice numerica
+  * `NaiveBayes` – antreneaza si face predictii
   * `accuracy`, `precision_recall_f1`, `confusion_matrix` – metrici de evaluare
 
 ---
 
-## Librării necesare
+## Librarii necesare
 
 * Python 3.x
 * pandas
@@ -58,7 +62,7 @@ Proiectul include:
 * math
 * collections (Counter)
 
-Instalare librării:
+Instalare librarii:
 
 ```bash
 pip install pandas numpy
@@ -68,7 +72,7 @@ pip install pandas numpy
 
 ## Rulare
 
-Fișierul CSV trebuie să conțină două coloane:
+Fisierul CSV trebuie sa contina doua coloane:
 
 * `headline` – titlul articolului
 * `clickbait` – eticheta 0 (non-clickbait) sau 1 (clickbait)
@@ -106,20 +110,7 @@ Top cuvinte ce contribuie la raspuns: ['just', 'her', 'first', 'day', 'hilarious
 
 ---
 
-## Exemple de utilizare
-
-```python
-# Predicție pentru titlu nou
-new_title = "10 Secrets You Never Knew About Cats"
-x_vec = vectorizer.transform([new_title])[0]
-pred = nb.predict_one(x_vec)
-print("Titlu:", new_title)
-print("Predictie:", pred)
-```
-
----
-
-## Referințe
+## Referinte
 
 1. [Naive Bayes Classifier – Wikipedia](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 2. [Bag of Words Model](https://en.wikipedia.org/wiki/Bag-of-words_model)
